@@ -1,0 +1,24 @@
+{
+  "name": "tum-foobar2000",
+  "version": "0.1.0",
+  "description": "The Universal connector module for Foobar2000 player",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheUniversal/tum-foobar2000.git"
+  },
+  "keywords": [
+    "universal",
+    "foobar2000",
+    "connector"
+  ],
+  "author": "Matias Klemola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheUniversal/tum-foobar200/issues"
+  },
+  "homepage": "https://github.com/TheUniversal/tum-foobar200",
+  "dependencies": {
+    "the-universal-common": "0.1.1"
+  }
+}

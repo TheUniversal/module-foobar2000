@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/TheUniversal/tum-foobar200",
   "dependencies": {
+    "data.maybe": "1.2.0",
     "the-universal-common": "0.1.1"
   }
 }

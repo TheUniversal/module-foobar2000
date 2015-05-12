@@ -53,7 +53,7 @@ function messageObject(code, message) {
 
     return {
         code: code,
-        playbackStatus: status ? Maybe.Just(status) : Maybe.Nothing(),
+        playbackStatus: Maybe.fromNullable(status),
         currentTrack: status ? Maybe.Just(parseTrackData(message)) : Maybe.Nothing(),
         volume: code === VOLUME_CODE ?  Maybe.Just(message.split('|')[1]) : Maybe.Nothing()
     };

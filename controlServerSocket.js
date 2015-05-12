@@ -6,14 +6,6 @@ var parseMessage = require('./parseMessage');
 var CONTROL_SERVER_PORT = 3333;
 var client;
 
-function write(message){
-    try {
-        client.write(message);
-    } catch (error) {
-        console.log('Could not reach control server.', error);
-    }
-}
-
 function onData(data){
     var message = parseMessage(data.toString('utf-8'));
     //todo: route messages back to core
@@ -37,8 +29,12 @@ module.exports = {
     },
 
     sendCommand: function(command){
-        write(command + '\r\n');
-        console.log('Control server command sent for action', command);
+        try {
+            client.write(command + '\r\n');
+            console.log('Control server command sent for action', command);
+        } catch (error) {
+            onError(error);
+        }
     },
 
     endConnection: function(){

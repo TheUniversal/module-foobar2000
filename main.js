@@ -17,7 +17,6 @@ function sendCommand(command) {
 
 module.exports = function Foobar2000Module(playerEventDispatcher) {
     dispatcher = playerEventDispatcher;
-    controlServerSocket.connect(onData, dispatcher.onError);
 
     return {
         name: 'Foobar2000',
@@ -28,7 +27,10 @@ module.exports = function Foobar2000Module(playerEventDispatcher) {
         ],
         onPlaybackCommand: sendCommand,
         onVolumeChange: sendCommand,
-        onUnloadModule: controlServerSocket.endConnection
+        onActivateModule: function(){
+            controlServerSocket.connect(onData, dispatcher.onError);
+        },
+        onDeactivateModule: controlServerSocket.endConnection
     }
 };
 

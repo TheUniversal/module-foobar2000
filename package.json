@@ -12,6 +12,7 @@
     "foobar2000",
     "connector"
   ],
+  "main": "main.js",
   "author": "Matias Klemola",
   "license": "MIT",
   "bugs": {

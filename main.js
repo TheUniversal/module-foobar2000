@@ -1,18 +1,28 @@
 'use strict';
 
-var commands = require('the-universal-common/command/Commands');
+var Commands = require('the-universal-common/command/Commands');
 var controlServerSocket = require('./controlServerSocket');
+var shellCommand = require('./shellCommand');
 var parseMessage = require('./parseMessage');
 
 var dispatcher;
 
 function onData(data){
     var message = parseMessage(data.toString('utf-8'));
-    //todo: route messages back to core
+
+    message.statusMessages.forEach(function(message){
+        if (message.playbackStatus.isJust) {
+            dispatcher.onPlaybackEvent(message.playbackStatus.get())
+        }
+    })
 }
 
 function sendCommand(command) {
-    controlServerSocket.sendCommand(command, dispatcher.onError);
+    if (command === Commands.PLAYBACK.PREVIOUS) {
+        shellCommand.sendCommand('prev');
+    } else {
+        shellCommand.sendCommand(command);
+    }
 }
 
 module.exports = function Foobar2000Module(playerEventDispatcher) {
@@ -21,9 +31,9 @@ module.exports = function Foobar2000Module(playerEventDispatcher) {
     return {
         name: 'Foobar2000',
         supportedCommands: [
-            commands.PLAYBACK.PLAY,
-            commands.PLAYBACK.PAUSE,
-            commands.PLAYBACK.STOP
+            Commands.PLAYBACK.PLAY,
+            Commands.PLAYBACK.PAUSE,
+            Commands.PLAYBACK.STOP
         ],
         onPlaybackCommand: sendCommand,
         onVolumeChange: sendCommand,

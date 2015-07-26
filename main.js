@@ -33,7 +33,9 @@ module.exports = function Foobar2000Module(playerEventDispatcher) {
         supportedCommands: [
             Commands.PLAYBACK.PLAY,
             Commands.PLAYBACK.PAUSE,
-            Commands.PLAYBACK.STOP
+            Commands.PLAYBACK.STOP,
+            Commands.PLAYBACK.NEXT,
+            Commands.PLAYBACK.PREVIOUS
         ],
         onPlaybackCommand: sendCommand,
         onVolumeChange: sendCommand,

@@ -1,13 +1,14 @@
 'use strict';
 
+var PlaybackStatus = require('the-universal-common/playback/PlaybackStatus');
 var Maybe = require('data.maybe');
 
 var VOLUME_CODE = 222;
 var INFO_CODE = 999;
-var STATUS_CODES = {
-    'playing': 111,
-    'stopped': 112,
-    'paused': 113
+var STATUS_LIST = {
+    111 : PlaybackStatus.PLAYING,
+    112 : PlaybackStatus.STOPPED,
+    113 : PlaybackStatus.PAUSED
 };
 var MESSAGE_STATUS_FIELDS = [
     'status',
@@ -26,14 +27,6 @@ var MESSAGE_STATUS_FIELDS = [
     'trackLength'
 ];
 
-function getStatusNameByCode(code) {
-    for (var status in STATUS_CODES) {
-        if (STATUS_CODES.hasOwnProperty(status) && STATUS_CODES[status] === code) {
-            return status;
-        }
-    }
-}
-
 function parseTrackData(text) {
     var attributes = text.split('|');
     var trackData = {};
@@ -49,7 +42,7 @@ function parseTrackData(text) {
 }
 
 function messageObject(code, message) {
-    var status = getStatusNameByCode(code);
+    var status = STATUS_LIST[code];
 
     return {
         code: code,

@@ -6,7 +6,7 @@ var fs = require('fs');
 var foobarPath = 'C:/Program Files (x86)/foobar2000/';
 
 if (fs.readdirSync(foobarPath).indexOf('foobar2000.exe') === -1) {
-    throw 'Foobar2000.exe was not found in the path specified in config.js';
+    throw 'Foobar2000.exe was not found';
 }
 
 module.exports = {

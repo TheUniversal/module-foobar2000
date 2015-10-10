@@ -14,15 +14,10 @@ function onData(data){
         if (message.playbackStatus.isJust) {
             dispatcher.onPlaybackEvent(message.playbackStatus.get())
         }
-    })
-}
-
-function sendCommand(command) {
-    if (command === Commands.PLAYBACK.PREVIOUS) {
-        shellCommand.sendCommand('prev');
-    } else {
-        shellCommand.sendCommand(command);
-    }
+        if (message.volume.isJust) {
+            console.log('volume-level', message.volume.get())
+        }
+    });
 }
 
 module.exports = function Foobar2000Module(playerEventDispatcher) {
@@ -35,10 +30,17 @@ module.exports = function Foobar2000Module(playerEventDispatcher) {
             Commands.PLAYBACK.PAUSE,
             Commands.PLAYBACK.STOP,
             Commands.PLAYBACK.NEXT,
-            Commands.PLAYBACK.PREVIOUS
+            Commands.PLAYBACK.PREVIOUS,
+            Commands.VOLUME.MUTE,
+            Commands.VOLUME.DOWN,
+            Commands.VOLUME.UP
         ],
-        onPlaybackCommand: sendCommand,
-        onVolumeChange: sendCommand,
+        onPlaybackCommand: function(command){
+            shellCommand.sendCommand(command);
+        },
+        onVolumeChange: function(command){
+            controlServerSocket.sendCommand(command, dispatcher.onError);
+        },
         onActivateModule: function(){
             controlServerSocket.connect(onData, dispatcher.onError);
         },

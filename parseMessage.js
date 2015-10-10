@@ -56,12 +56,17 @@ module.exports = function parseMessage(message) {
     var messageLines = message.split('\r\n');
     var statusMessages = [];
     var infoMessage = '';
+    var errorMessage = '';
 
-    messageLines.forEach(function (line) {
+    messageLines.filter(function(line) {
+       return !!line
+    }).forEach(function (line) {
         var code = parseInt(line.substring(0, 3), 10);
         var message = line.substring(3);
         if (code === INFO_CODE) {
             infoMessage += message + '\n';
+        } else if (isNaN(code)) {
+            errorMessage = line + '\n';
         } else {
             statusMessages.push(messageObject(code, message))
         }
@@ -69,6 +74,7 @@ module.exports = function parseMessage(message) {
 
     return {
         statusMessages: statusMessages,
-        infoMessage: infoMessage
+        infoMessage: infoMessage,
+        errorMessage: errorMessage
     }
 };

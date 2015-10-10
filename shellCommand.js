@@ -1,5 +1,7 @@
 'use strict';
 
+var Commands = require('the-universal-common/command/Commands');
+
 var exec = require('child_process').exec;
 var fs = require('fs');
 
@@ -11,7 +13,8 @@ if (fs.readdirSync(foobarPath).indexOf('foobar2000.exe') === -1) {
 
 module.exports = {
     sendCommand: function(command) {
-        exec('foobar2000.exe /' + command, { cwd: foobarPath });
+        exec('foobar2000.exe /' + (command  === Commands.PLAYBACK.PREVIOUS ?  'prev' : command),
+            { cwd: foobarPath });
     },
 
     launchFoobar: function() {
